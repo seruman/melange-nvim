@@ -20,9 +20,9 @@ return {
     c = { bg = a.float, fg = a.com },
   },
   insert = {
-    a = { bg = insert_blue, fg = a.bg },
-    b = { bg = a.bg, fg = insert_blue },
-    c = { bg = a.float, fg = insert_blue },
+    a = { bg = c.green, fg = a.bg },
+    b = { bg = a.bg, fg = c.green },
+    c = { bg = a.float, fg = c.green },
   },
   command = {
     a = { bg = c.yellow, fg = a.bg },
@@ -45,8 +45,8 @@ return {
     c = { bg = a.float, fg = c.yellow },
   },
   inactive = {
-    a = { bg = a.com, fg = a.bg },
-    b = { bg = a.bg, fg = a.com, gui = 'bold' },
-    c = { bg = a.float, fg = a.com },
+    a = { bg = d.bg, fg = d.fg },
+    b = { bg = d.bg, fg = d.com, gui = 'bold' },
+    c = { bg = d.float, fg = d.com },
   },
 }
