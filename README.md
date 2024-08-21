@@ -8,12 +8,16 @@
   - [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim)
   - [indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim)
   - [neo-tree.nvim](https://github.com/nvim-neo-tree/neo-tree.nvim)
+  - [lightline.vim](https://github.com/itchyny/lightline.vim)
+  - [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim)
+  - [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)
 - Support for various terminal emulators (see [`term/`](term/)):
   - [Alacritty](https://github.com/alacritty/alacritty)
   - [Foot](https://codeberg.org/dnkl/foot)
   - [Kitty](https://github.com/kovidgoyal/kitty)
   - [Terminator](https://github.com/gnome-terminator/terminator)
   - [Wezterm](https://github.com/wez/wezterm)
+  - [iTerm2](https://github.com/gnachman/iTerm2)
 
 
 ## Requirements

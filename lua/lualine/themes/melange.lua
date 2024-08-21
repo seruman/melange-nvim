@@ -1,52 +1,50 @@
--- NOTE(selman): Copied from;
--- https://github.com/Martin1887/melangeDarkerWarm-nvim/blob/master/lua/lualine/themes/melange.lua
-
 local bg = vim.opt.background:get()
-
--- package.loaded['melange/palettes/' .. bg] = nil -- Only needed for development
 local palette = require('melange/palettes/' .. bg)
-
-local a = palette.a -- Grays
-local b = palette.b -- Bright foreground colors
-local c = palette.c -- Foreground colors
-local d = palette.d -- Background colors
-
-local insert_blue = '#9999BB'
+local grays = palette.a
+local bright = palette.b
+local normal = palette.c
+local dark = palette.d
 
 return {
   normal = {
-    a = { bg = a.com, fg = a.bg },
-    b = { bg = a.bg, fg = a.com },
-    c = { bg = a.float, fg = a.com },
+    a = { bg = grays.com, fg = grays.float, gui = 'bold' },
+    b = { bg = grays.sel, fg = grays.com },
+    c = { bg = grays.float, fg = grays.com },
+    y = { bg = grays.ui, fg = grays.float },
   },
   insert = {
-    a = { bg = c.green, fg = a.bg },
-    b = { bg = a.bg, fg = c.green },
-    c = { bg = a.float, fg = c.green },
+    a = { bg = bright.red, fg = grays.float, gui = 'bold' },
+    b = { bg = grays.sel, fg = normal.red },
+    c = { bg = grays.float, fg = grays.com },
+    y = { bg = normal.red, fg = grays.float },
   },
   command = {
-    a = { bg = c.yellow, fg = a.bg },
-    b = { bg = a.bg, fg = c.yellow },
-    c = { bg = a.float, fg = c.yellow },
+    a = { bg = bright.green, fg = grays.float, gui = 'bold' },
+    b = { bg = grays.sel, fg = normal.green },
+    c = { bg = grays.float, fg = grays.com },
+    y = { bg = normal.green, fg = grays.float },
   },
   visual = {
-    a = { bg = c.magenta, fg = a.bg },
-    b = { bg = a.bg, fg = c.magenta },
-    c = { bg = a.float, fg = c.magenta },
+    a = { bg = bright.yellow, fg = grays.float, gui = 'bold' },
+    b = { bg = grays.sel, fg = normal.yellow },
+    c = { bg = grays.float, fg = grays.com },
+    y = { bg = normal.yellow, fg = grays.float },
   },
   replace = {
-    a = { bg = c.green, fg = a.bg },
-    b = { bg = a.bg, fg = c.green },
-    c = { bg = a.float, fg = c.green },
+    a = { bg = bright.magenta, fg = grays.float, gui = 'bold' },
+    b = { bg = grays.sel, fg = normal.magenta },
+    c = { bg = grays.float, fg = grays.com },
+    y = { bg = normal.magenta, fg = grays.float },
   },
   terminal = {
-    a = { bg = c.yellow, fg = a.bg },
-    b = { bg = a.bg, fg = c.yellow },
-    c = { bg = a.float, fg = c.yellow },
+    a = { bg = bright.red, fg = grays.float, gui = 'bold' },
+    b = { bg = grays.sel, fg = normal.red },
+    c = { bg = grays.float, fg = grays.com },
+    y = { bg = normal.red, fg = grays.float },
   },
   inactive = {
-    a = { bg = d.bg, fg = d.fg },
-    b = { bg = d.bg, fg = d.com, gui = 'bold' },
-    c = { bg = d.float, fg = d.com },
+    a = { bg = grays.float, fg = grays.com },
+    b = { bg = grays.float, fg = grays.com },
+    c = { bg = grays.float, fg = grays.com },
   },
 }

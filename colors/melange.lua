@@ -12,28 +12,21 @@ local b = palette.b -- Bright foreground colors
 local c = palette.c -- Foreground colors
 local d = palette.d -- Background colors
 
-local fv
-if vim.g.melange_enable_font_variants == true or
-   vim.g.melange_enable_font_variants == nil
-then
-  fv = {
-    bold = true,
-    italic = true,
-    underline = true,
-    undercurl = true,
-    strikethrough = true,
-  }
-elseif vim.g.melange_enable_font_variants == false
-then
-  fv = {
-    bold = false,
-    italic = false,
-    underline = false,
-    undercurl = false,
-    strikethrough = false,
-  }
-else
-  fv = vim.g.melange_enable_font_variants
+local bold, italic, underline, undercurl, strikethrough
+if vim.g.melange_enable_font_variants == true or vim.g.melange_enable_font_variants == nil then
+  --- Enable all font attributes by default
+  bold = true
+  italic = true
+  underline = true
+  undercurl = true
+  strikethrough = true
+elseif type(vim.g.melange_enable_font_variants) == 'table' then
+  --- Enable only selected font attributes
+  bold = vim.g.melange_enable_font_variants.bold
+  italic = vim.g.melange_enable_font_variants.italic
+  underline = vim.g.melange_enable_font_variants.underline
+  undercurl = vim.g.melange_enable_font_variants.undercurl
+  strikethrough = vim.g.melange_enable_font_variants.strikethrough
 end
 
 for name, attrs in pairs {
@@ -66,6 +59,8 @@ for name, attrs in pairs {
   PmenuSel = { bg = a.sel },
   PmenuSbar = 'Pmenu',
   PmenuThumb = 'PmenuSel',
+  PmenuMatch = { fg = b.yellow, bold = bold, bg = a.float },
+  PmenuMatchSel = { fg = b.yellow, bold = bold, bg = a.sel },
 
   StatusLine = 'NormalFloat',
   StatusLineNC = { fg = a.com, bg = a.float },
@@ -73,11 +68,11 @@ for name, attrs in pairs {
 
   TabLine = 'StatusLineNC',
   TabLineFill = 'StatusLine',
-  TabLineSel = { bg = a.float, bold = fv.bold },
+  TabLineSel = { bg = a.float, bold = bold },
 
-  MatchParen = { fg = b.yellow, bg = a.sel, bold = fv.bold },
-  Search = { fg = a.bg, bg = d.yellow, bold = fv.bold },
-  Substitute = { bg = d.red, bold = fv.bold },
+  MatchParen = { fg = b.yellow, bg = a.sel, bold = bold },
+  Search = { fg = a.bg, bg = d.yellow, bold = bold },
+  Substitute = { bg = d.red, bold = bold },
   -- QuickFixLine = {},
   -- IncSearch = {},
   Visual = { bg = a.sel },
@@ -95,7 +90,7 @@ for name, attrs in pairs {
   ModeMsg = { fg = a.com },
   -- MsgArea = {},
   -- MsgSeparator = {},
-  MoreMsg = { fg = c.green, bold = fv.bold },
+  MoreMsg = { fg = c.green, bold = bold },
   WarningMsg = { fg = c.red },
   Question = 'MoreMsg',
 
@@ -111,18 +106,18 @@ for name, attrs in pairs {
 
   ---- :help spell -------------------------------------------
 
-  SpellBad = { fg = c.red, undercurl = fv.undercurl },
-  SpellCap = { fg = c.blue, undercurl = fv.undercurl },
-  SpellLocal = { fg = c.yellow, undercurl = fv.undercurl },
-  SpellRare = { fg = b.yellow, undercurl = fv.undercurl },
+  SpellBad = { fg = c.red, undercurl = undercurl },
+  SpellCap = { fg = c.blue, undercurl = undercurl },
+  SpellLocal = { fg = c.yellow, undercurl = undercurl },
+  SpellRare = { fg = b.yellow, undercurl = undercurl },
 
   ---- :help group-name --------------------------------------
 
-  Comment = { fg = a.com, italic = fv.italic },
+  Comment = { fg = a.com, italic = italic },
   Identifier = { fg = a.fg },
   Function = { fg = b.yellow },
   Constant = { fg = c.magenta },
-  String = { fg = b.blue, italic = fv.italic },
+  String = { fg = b.blue, italic = italic },
   Character = { fg = c.blue },
   Number = { fg = b.magenta },
   Boolean = 'Number',
@@ -154,13 +149,13 @@ for name, attrs in pairs {
   -- SpecialComment = {},
   -- Debug = {},
 
-  Underlined = { underline = fv.underline },
-  Bold = { bold = fv.bold },
-  Italic = { italic = fv.italic },
+  Underlined = { underline = underline },
+  Bold = { bold = bold },
+  Italic = { italic = italic },
 
   Ignore = { fg = a.ui },
   Error = { bg = d.red },
-  Todo = { fg = a.com, bold = fv.bold },
+  Todo = { fg = a.com, bold = bold },
 
   ---- :help nvim-treesitter-highlights (external plugin) ----
 
@@ -175,7 +170,7 @@ for name, attrs in pairs {
   ['@string.escape'] = { fg = c.blue },
   ['@string.regexp'] = { fg = b.blue },
   ['@string.special'] = { fg = b.cyan },
-  ['@string.special.symbol'] = { fg = a.fg, italic = fv.italic },
+  ['@string.special.symbol'] = { fg = a.fg, italic = italic },
   ['@string.special.path'] = { fg = c.blue },
   ['@string.special.url'] = '@string.special.path',
 
@@ -216,7 +211,7 @@ for name, attrs in pairs {
 
   -- ['@function'] = {},
   -- ['@function.builtin'] = {},
-  -- ['@function.macro'] = {},
+  ['@function.macro'] = 'Function',
   -- ['@function.method'] = {},
   -- ['@constructor'] = {},
 
@@ -233,14 +228,19 @@ for name, attrs in pairs {
 
   -- ['@markup'] = {},
   ['@markup.heading'] = 'Title',
-  ['@markup.italic'] = { italic = fv.italic },
-  ['@markup.strong'] = { bold = fv.bold },
-  ['@markup.strike'] = { strikethrough = fv.strikethrough },
-  ['@markup.underline'] = { underline = fv.underline },
+  ['@markup.heading.2'] = { fg = b.yellow },
+  ['@markup.heading.3'] = { fg = b.green },
+  ['@markup.heading.4'] = { fg = b.cyan },
+
+  ['@markup.italic'] = { italic = italic },
+  ['@markup.strong'] = { bold = bold },
+  ['@markup.strikethrough'] = { strikethrough = strikethrough },
+  ['@markup.underline'] = { underline = underline },
+
   ['@markup.quote'] = 'Comment',
   -- ['@markup.math'] = {}, -- TODO
   -- ['@markup.environment'] = {},
-  ['@markup.link'] = { underline = fv.underline },
+  ['@markup.link'] = { underline = underline },
   -- ['@markup.link.label'] = {},
   ['@markup.link.url'] = '@string.special.url',
   ['@markup.raw'] = { fg = a.com },
@@ -264,11 +264,11 @@ for name, attrs in pairs {
   DiagnosticInfo = { fg = c.blue },
   DiagnosticHint = { fg = c.cyan },
   DiagnosticOk = { fg = c.green },
-  DiagnosticUnderlineError = { undercurl = fv.undercurl, sp = c.red },
-  DiagnosticUnderlineWarn = { undercurl = fv.undercurl, sp = b.yellow },
-  DiagnosticUnderlineInfo = { undercurl = fv.undercurl, sp = c.blue },
-  DiagnosticUnderlineHint = { undercurl = fv.undercurl, sp = c.cyan },
-  DiagnosticUnderlineOk = { undercurl = fv.undercurl, sp = c.green },
+  DiagnosticUnderlineError = { undercurl = undercurl, sp = c.red },
+  DiagnosticUnderlineWarn = { undercurl = undercurl, sp = b.yellow },
+  DiagnosticUnderlineInfo = { undercurl = undercurl, sp = c.blue },
+  DiagnosticUnderlineHint = { undercurl = undercurl, sp = c.cyan },
+  DiagnosticUnderlineOk = { undercurl = undercurl, sp = c.green },
   -- DiagnosticVirtualTextError = {},
   -- DiagnosticVirtualTextWarn = {},
   -- DiagnosticVirtualTextInfo = {},
@@ -286,7 +286,7 @@ for name, attrs in pairs {
   -- DiagnosticSignOk = {},
 
   DiagnosticDeprecated = { DiagnosticUnderlineError },
-  DiagnosticUnnecessary = { fg = a.com, undercurl = fv.undercurl },
+  DiagnosticUnnecessary = { undercurl = undercurl, sp = a.com },
 
   ---- :help lsp-highlight -----------------------------------
 
@@ -298,6 +298,7 @@ for name, attrs in pairs {
 
   ---- :help lsp-semantic-highlight --------------------------
 
+  ['@lsp.mod.GlobalScope'] = { italic = italic },
   -- ['@lsp.type.class'] = 'Structure',
   -- ['@lsp.type.comment'] = 'Comment',
   -- ['@lsp.type.decorator'] = 'Function',
@@ -305,10 +306,10 @@ for name, attrs in pairs {
   -- ['@lsp.type.enumMember'] = 'Constant',
   -- ['@lsp.type.function'] = 'Function',
   -- ['@lsp.type.interface'] = 'Structure',
-  ['@lsp.type.macro'] = 'Function',
+  ['@lsp.type.macro'] = {},
   -- ['@lsp.type.method'] = 'Function',
   ['@lsp.type.namespace'] = { fg = c.green },
-  ['@lsp.type.parameter'] = { fg = a.fg, bold = fv.bold },
+  ['@lsp.type.parameter'] = { fg = a.fg, bold = bold },
   -- ['@lsp.type.property'] = 'Identifier',
   -- ['@lsp.type.struct'] = 'Structure',
   -- ['@lsp.type.type'] = 'Type',
@@ -320,7 +321,7 @@ for name, attrs in pairs {
   texOptSep = '@punctuation.delimiter',
   texOptEqual = 'Operator',
   texFileArg = 'Constant',
-  texTitleArg = { bold = fv.bold },
+  texTitleArg = { bold = bold },
   texRefArg = 'Constant',
 
   texMathCmd = 'Function',
@@ -363,6 +364,35 @@ for name, attrs in pairs {
   IndentBlanklineChar = 'IblIndent', -- Deprecated?
   IndentBlanklineSpaceChar = 'IndentBlanklineChar',
   IndentBlanklineSpaceCharBlankline = 'IndentBlanklineChar',
+
+  ---- :h cmp-highlight (external plugin) -------------------
+  CmpItemAbbrMatch = { fg = b.yellow, bold = bold },
+  CmpItemAbbrMatchFuzzy = { fg = b.yellow, bold = bold },
+  CmpItemKindVariable = '@variable',
+  CmpItemKindValue = '@constant',
+  CmpItemKindUnit = '@constant',
+  CmpItemKindTypeParameter = '@type',
+  CmpItemKindText = '@text',
+  CmpItemKindStruct = '@type',
+  CmpItemKindSnippet = '@string.special',
+  CmpItemKindReference = '@type',
+  CmpItemKindProperty = '@property',
+  CmpItemKindOperator = '@operator',
+  CmpItemKindModule = '@namespace',
+  CmpItemKindMethod = '@method',
+  CmpItemKindKeyword = '@keyword',
+  CmpItemKindInterface = '@type',
+  CmpItemKindFunction = '@function',
+  CmpItemKindFolder = '@string.special.path',
+  CmpItemKindFile = '@string.special.path',
+  CmpItemKindField = '@field',
+  CmpItemKindEvent = '@type',
+  CmpItemKindEnumMember = '@field',
+  CmpItemKindEnum = '@type',
+  CmpItemKindConstructor = '@constructor',
+  CmpItemKindConstant = '@constant',
+  CmpItemKindColor = '@constant',
+  CmpItemKindClass = '@type',
 } do
   if type(attrs) == 'table' then
     vim.api.nvim_set_hl(0, name, attrs)
